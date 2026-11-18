@@ -1,0 +1,81 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Locações</title>
+</head>
+<body>
+
+    {% include '_menu.html'%}
+
+    {% include '_mensagem.html'%}
+
+    <div class="form-pesquisa">
+    <form method="GET">
+        <input type="text" name="pesquisa" placeholder="Pesquisar por endereço" value='{{ pesquisa }}'>
+        <select name="status">
+            <option value="">Todos</option>
+            <option value="P" {% if status == 'P' %}selected{% endif %}>Pendente</option>
+            <option value="A" {% if status == 'A' %}selected{% endif %}>Ativa</option>
+            <option value="F" {% if status == 'F' %}selected{% endif %}>Finalizada</option>
+            <option value="C" {% if status == 'C' %}selected{% endif %}>Cancelada</option>
+        </select>
+        <button type="submit">Pesquisar</button>
+    </form>
+    </div>
+
+    <h1> Lista de Locações </h1>
+    
+    <div class="acoes-topo">
+        <a href="{% url 'criar_locacao' %}" class="botao-novo"> + Criar Locação </a>
+    </div>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>Imóvel</th>
+                    <th>Início</th>
+                    <th>Duração</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for locacao in locacoes %}
+
+                <tr>
+                    <td> {{ locacao.cliente }} </td>
+                    <td> {{ locacao.imovel.endereco }} </td>
+                    <td> {{ locacao.data_inicio|date:"d/m/Y" }} </td>
+                    <td> {{ locacao.duracao_meses }} meses </td>
+                    <td> {{ locacao.get_status_display }} </td>
+                    <td>
+                        {% if locacao.status == 'P' %}
+                            <a href="{% url 'ativar_locacao' locacao.id %}"> Confirmar Entrada </a> |
+                            <a href="{% url 'cancelar_locacao' locacao.id %}"> Cancelar </a>
+                        {% elif locacao.status == 'A' %}
+                            <a href="{% url 'finalizar_locacao' locacao.id %}" onclick="return confirm('Confirmar a devolução do imóvel?')"> Finalizar </a>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+</html>

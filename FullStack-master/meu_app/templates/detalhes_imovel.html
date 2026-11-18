@@ -1,0 +1,75 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Detalhes do Imóvel</title>
+</head>
+<body>
+
+    {% include '_menu.html'%}
+
+    {% include '_mensagem.html'%}
+
+    <h1> {{ imovel.endereco }} </h1>
+
+    <div class="lista-funcionario">
+        <table border="">
+            <tr>
+                <th>Tipo</th>
+                <td> {{ imovel.get_tipo_display }} </td>
+            </tr>
+            <tr>
+                <th>Quartos</th>
+                <td> {{ imovel.numero_quartos }} </td>
+            </tr>
+            <tr>
+                <th>Metragem</th>
+                <td> {{ imovel.metragem }} m² </td>
+            </tr>
+            <tr>
+                <th>Aluguel</th>
+                <td> R$ {{ imovel.valor_aluguel|floatformat:2 }} </td>
+            </tr>
+            <tr>
+                <th>Situação</th>
+                <td> {{ imovel.get_situacao_display }} </td>
+            </tr>
+            <tr>
+                <th>Observações</th>
+                <td> {{ imovel.obs }} </td>
+            </tr>
+        </table>
+    </div>
+
+    <h3 class="subtitulo"> Ocorrências </h3>
+    <div class="lista-funcionario">
+        {% for ocorrencia in imovel.ocorrencias.all %}
+            <p> {{ ocorrencia.data_cadastro|date:"d/m/Y" }} - {{ ocorrencia.descricao }}
+                {% if ocorrencia.resolvida %}(resolvida){% else %}(pendente){% endif %}
+            </p>
+        {% empty %}
+            <p> Nenhuma ocorrência registrada </p>
+        {% endfor %}
+    </div>
+
+    <div class="galeria-fotos">
+        {% for foto in imovel.fotos.all %}
+            <img src="{{ foto.imagem.url }}" alt="Foto do imóvel">
+        {% empty %}
+            <p> Nenhuma foto cadastrada </p>
+        {% endfor %}
+    </div>
+
+    <div class="acoes-topo">
+        <a href="{% url 'pesquisar_imoveis' %}" class="botao-novo"> Voltar à Pesquisa </a>
+        {% if imovel.situacao == 'D' %}
+            <a href="{% url 'criar_locacao' %}" class="botao-novo"> + Criar Locação </a>
+        {% endif %}
+    </div>
+
+</body>
+</html>

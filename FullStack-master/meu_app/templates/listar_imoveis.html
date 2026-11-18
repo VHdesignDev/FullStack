@@ -1,0 +1,79 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Lista de Imóveis</title>
+</head>
+<body>
+
+    {% include '_menu.html'%}
+
+    {% include '_mensagem.html'%}
+
+    <div class="form-pesquisa">
+        <form method="GET">
+            <input type="text" name="endereco_da_pesquisa" placeholder="Pesquisar por endereço" value='{{ endereco_da_pesquisa }}'>
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+
+    <h1> Lista de Imóveis </h1>
+    
+    <div class="acoes-topo">
+        <a href="{% url 'cadastrar_imovel' %}" class="botao-novo"> + Cadastrar Imóvel </a>
+    </div>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Endereço</th>
+                    <th>Tipo</th>
+                    <th>Quartos</th>
+                    <th>Metragem</th>
+                    <th>Aluguel</th>
+                    <th>Situação</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for imovel in imoveis %}
+
+                <tr>
+                    <td> {{ imovel.endereco }} </td>
+                    <td> {{ imovel.get_tipo_display }} </td>
+                    <td> {{ imovel.numero_quartos }} </td>
+                    <td> {{ imovel.metragem }} m² </td>
+                    <td> R$ {{ imovel.valor_aluguel|floatformat:2 }} </td>
+                    <td> {{ imovel.get_situacao_display }} </td>
+                    <td>
+                        <a href="{% url 'detalhes_imovel' imovel.id %}"> Detalhes </a> |
+                        <a href="{% url 'editar_imovel' imovel.id %}"> Editar </a> |
+                        <a href="{% url 'fotos_imovel' imovel.id %}"> Fotos </a> |
+                        <a href="{% url 'excluir_imovel' imovel.id %}"> Excluir </a>
+                        {% if user.is_superuser %}
+                            {% if imovel.situacao == 'D' %}
+                                | <a href="{% url 'bloquear_imovel' imovel.id %}"> Bloquear </a>
+                            {% elif imovel.situacao == 'I' %}
+                                | <a href="{% url 'desbloquear_imovel' imovel.id %}"> Desbloquear </a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+</html>

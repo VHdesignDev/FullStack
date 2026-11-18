@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title> Listar Funcionarios </title>
+</head>
+<body>
+
+    {% include '_menu.html' %}
+
+    {% include '_mensagem.html' %}
+
+    <h1> Lista de Funcionários Inativos </h1>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Sexo</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+                {% for funcionario in funcionarios %}
+
+                <tr>
+                    <td> {{ funcionario.nome}} </td>
+                    <td> {{ funcionario.sobrenome }} </td>
+                    <td> {{ funcionario.email }} </td>
+                    <td> {{ funcionario.telefone }} </td>
+                    <td> {{ funcionario.get_sexo_display }} </td>
+                    <td> 
+                        <a href="{% url 'excluir_funcionario' funcionario.id %}"> Excluir </a> | 
+                        <a href="{% url 'ativar_funcionario' funcionario.id %} "> Ativar </a> 
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    <div>
+
+</body>
+</html>
+
+   

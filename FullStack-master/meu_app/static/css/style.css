@@ -1,0 +1,586 @@
+/* =========================================================
+   SISTEMA DE ALUGUEL DE IMÓVEIS - CLAUDE CSS
+   Tema: ficha de cadastro — verde-floresta, latão e papel frio
+   Fonte: Archivo (títulos condensados, texto em largura normal)
+   ========================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap');
+
+
+/* ---------- Cores e medidas (mude aqui para trocar tudo) ---------- */
+:root {
+    --floresta: #234d3c;
+    --floresta-escuro: #183629;
+    --latao: #a88b4a;
+    --papel: #eef1ee;
+    --branco: #ffffff;
+    --linha: #cfd8d2;
+    --linha-forte: #9fb2a6;
+    --tinta: #1b2420;
+    --tinta-suave: #5d6b64;
+    --alerta: #9e3a2a;
+    --destaque-linha: #f3f6f3;
+
+    --coluna: 1120px;
+    --raio: 3px;
+}
+
+
+/* ---------- Base ---------- */
+body {
+    margin: 0;
+    background-color: var(--papel);
+    color: var(--tinta);
+    font-family: 'Archivo', 'Segoe UI', Arial, sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+}
+
+h1 {
+    max-width: var(--coluna);
+    margin: 34px auto 18px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+    text-align: left;
+    color: var(--floresta-escuro);
+    font-size: 34px;
+    font-weight: 750;
+    font-stretch: 75%;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+}
+
+h3 {
+    color: var(--floresta-escuro);
+    font-weight: 700;
+    font-stretch: 85%;
+    font-size: 19px;
+}
+
+a {
+    color: var(--floresta);
+}
+
+:focus-visible {
+    outline: 2px solid var(--latao);
+    outline-offset: 2px;
+}
+
+.text-red {
+    color: var(--alerta) !important;
+}
+
+
+/* ---------- Barra do topo (o destaque do sistema) ----------
+   Duas faixas: em cima o nome do sistema e o usuário,
+   embaixo os links do menu. */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background-color: var(--floresta-escuro);
+    border-bottom: 4px solid var(--latao);
+    padding: 0 24px;
+}
+
+nav::before {
+    content: "Imobiliária";
+    order: 1;
+    color: var(--branco);
+    font-size: 26px;
+    font-weight: 800;
+    font-stretch: 62%;
+    letter-spacing: 0.01em;
+    padding: 10px 0 8px 0;
+}
+
+.usuario-menu {
+    order: 2;
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--latao);
+    font-size: 13.5px;
+    white-space: nowrap;
+}
+
+nav > div:first-child {
+    order: 3;
+    flex-basis: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    border-top: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 4px 0;
+    margin-left: -8px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #dfe7e2;
+    padding: 7px 8px;
+    font-size: 14px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+}
+
+nav a:hover {
+    color: var(--branco);
+    border-bottom-color: var(--latao);
+}
+
+.usuario-menu a {
+    padding: 4px 6px;
+}
+
+.usuario-menu form {
+    display: inline;
+    margin: 0;
+}
+
+.link-logout {
+    background-color: transparent;
+    color: var(--branco);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: var(--raio);
+    padding: 5px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+.link-logout:hover {
+    background-color: var(--alerta);
+    border-color: var(--alerta);
+}
+
+
+/* ---------- Mensagens ---------- */
+.mensagem-success,
+.mensagem-error {
+    max-width: var(--coluna);
+    margin: 18px auto 0 auto;
+    padding: 12px 24px;
+    box-sizing: border-box;
+    font-weight: 600;
+    text-align: left;
+    border-left: 4px solid;
+}
+
+.mensagem-success {
+    background-color: #e2ebe5;
+    color: var(--floresta-escuro);
+    border-left-color: var(--floresta);
+}
+
+.mensagem-error {
+    background-color: #f3e2de;
+    color: var(--alerta);
+    border-left-color: var(--alerta);
+}
+
+
+/* ---------- Botões ---------- */
+button,
+.botao-novo {
+    display: inline-block;
+    background-color: var(--floresta);
+    color: var(--branco);
+    border: 1px solid var(--floresta);
+    border-radius: var(--raio);
+    padding: 8px 16px;
+    font-size: 14px;
+    font-family: inherit;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button:hover,
+.botao-novo:hover {
+    background-color: var(--floresta-escuro);
+    border-color: var(--floresta-escuro);
+    color: var(--branco);
+}
+
+.acoes-topo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 8px;
+    max-width: var(--coluna);
+    margin: 0 auto 22px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+
+/* ---------- Campos ---------- */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="date"],
+select,
+textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--linha-forte);
+    border-radius: var(--raio);
+    background-color: var(--branco);
+    font-size: 14px;
+    font-family: inherit;
+    color: var(--tinta);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--floresta);
+    box-shadow: inset 0 0 0 1px var(--floresta);
+}
+
+textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+input[type="file"] {
+    font-family: inherit;
+    font-size: 14px;
+}
+
+
+/* ---------- Barra de pesquisa e filtros ---------- */
+.form-pesquisa {
+    display: flex;
+    justify-content: flex-end;
+    max-width: var(--coluna);
+    margin: 0 auto;
+    padding: 22px 24px 0 24px;
+    box-sizing: border-box;
+}
+
+.form-pesquisa form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* ---------- Formulários de cadastro e edição ---------- */
+.container-principal {
+    display: flex;
+    justify-content: flex-start;
+    max-width: var(--coluna);
+    margin: 0 auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.container-principal form {
+    width: 100%;
+    max-width: 560px;
+    background-color: var(--branco);
+    border: 1px solid var(--linha);
+    border-top: 3px solid var(--floresta);
+    padding: 26px 28px 28px 28px;
+    margin-bottom: 48px;
+    box-sizing: border-box;
+}
+
+.container-principal form p {
+    margin: 0 0 18px 0;
+}
+
+.container-principal label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--tinta-suave);
+}
+
+.container-principal input[type="text"],
+.container-principal input[type="number"],
+.container-principal input[type="email"],
+.container-principal input[type="password"],
+.container-principal input[type="date"],
+.container-principal select,
+.container-principal textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.container-principal button {
+    margin-top: 6px;
+    padding: 10px 22px;
+}
+
+.container-principal .helptext,
+.container-principal ul {
+    font-size: 12px;
+    color: var(--tinta-suave);
+}
+
+.errorlist {
+    color: var(--alerta);
+    font-weight: 600;
+    padding-left: 18px;
+}
+
+
+/* ---------- Tabelas ---------- */
+.lista-funcionario {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: var(--coluna);
+    margin: 0 auto 56px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+    overflow-x: auto;
+}
+
+.lista-funcionario > button,
+.lista-funcionario > p {
+    margin-top: 18px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    background-color: var(--branco);
+    border: 1px solid var(--linha);
+}
+
+th,
+td {
+    padding: 11px 14px;
+    border: none;
+    border-bottom: 1px solid var(--linha);
+}
+
+th {
+    background-color: var(--branco);
+    color: var(--tinta-suave);
+    font-size: 13px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--floresta);
+    white-space: nowrap;
+}
+
+th a {
+    text-decoration: none;
+    color: var(--latao);
+}
+
+/* tabelas de ficha (sem cabeçalho), como a de detalhes do imóvel */
+table:not(:has(thead)) th {
+    width: 30%;
+    background-color: var(--destaque-linha);
+    border-bottom: 1px solid var(--linha);
+}
+
+tbody tr:hover {
+    background-color: var(--destaque-linha);
+}
+
+td a {
+    color: var(--floresta);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+
+/* ---------- Galeria de fotos ---------- */
+.galeria-fotos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: var(--coluna);
+    margin: 28px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.galeria-fotos img {
+    width: 280px;
+    height: 190px;
+    object-fit: cover;
+    border: 1px solid var(--linha-forte);
+    border-radius: 2px;
+}
+
+
+/* ---------- Página inicial ---------- */
+.subtitulo {
+    max-width: var(--coluna);
+    margin: 0 auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+    text-align: left;
+    color: var(--tinta-suave);
+}
+
+.cartoes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+    max-width: var(--coluna);
+    margin: 26px auto 56px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.cartao {
+    display: block;
+    padding: 20px 22px;
+    background-color: var(--branco);
+    color: var(--tinta);
+    text-decoration: none;
+    border: 1px solid var(--linha);
+    border-left: 4px solid var(--floresta);
+}
+
+.cartao h3 {
+    margin: 0 0 6px 0;
+    text-align: left;
+    font-size: 18px;
+}
+
+.cartao p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--tinta-suave);
+}
+
+.cartao:hover {
+    border-color: var(--floresta);
+}
+
+.cartao-admin {
+    border-left-color: var(--latao);
+}
+
+
+/* ---------- Página inicial: pendências ---------- */
+.painel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    max-width: var(--coluna);
+    margin: 0 auto 56px auto;
+    padding: 0 24px;
+    box-sizing: border-box;
+}
+
+.bloco {
+    background-color: var(--branco);
+    border: 1px solid var(--linha);
+}
+
+.bloco h2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    margin: 0;
+    padding: 14px 18px;
+    border-bottom: 2px solid var(--floresta);
+    color: var(--floresta-escuro);
+    font-size: 19px;
+    font-weight: 700;
+    font-stretch: 85%;
+}
+
+.bloco h2 a {
+    font-size: 13px;
+    font-weight: 600;
+    font-stretch: 100%;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.bloco h2 a:hover {
+    text-decoration: underline;
+}
+
+.bloco-alerta h2 {
+    border-bottom-color: var(--alerta);
+}
+
+.bloco ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.bloco li {
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--linha);
+}
+
+.bloco li:last-child {
+    border-bottom: none;
+}
+
+.bloco li strong {
+    display: block;
+    font-weight: 600;
+}
+
+.bloco li span {
+    color: var(--tinta-suave);
+    font-size: 13px;
+}
+
+.bloco .vazio {
+    margin: 0;
+    padding: 16px 18px;
+    color: var(--tinta-suave);
+}
+
+
+/* ---------- Telas pequenas ---------- */
+@media (max-width: 700px) {
+
+    .form-pesquisa {
+        justify-content: flex-start;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    .painel {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* ---------- Impressão (relatório) ---------- */
+@media print {
+
+    .nao-imprimir {
+        display: none !important;
+    }
+
+    body {
+        background-color: white;
+    }
+
+    th {
+        color: black;
+        border-bottom-color: black;
+    }
+}

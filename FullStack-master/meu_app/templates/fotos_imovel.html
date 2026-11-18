@@ -1,0 +1,36 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Fotos do Imóvel</title>
+</head>
+<body>
+
+    {% include '_menu.html'%}
+
+    {% include '_mensagem.html'%}
+
+    <h1> Fotos - {{ imovel.endereco }} </h1>
+
+    <div class="container-principal">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Adicionar Foto</button>
+        </form>
+    </div>
+
+    <div class="galeria-fotos">
+        {% for foto in imovel.fotos.all %}
+            <img src="{{ foto.imagem.url }}" alt="Foto do imóvel">
+        {% empty %}
+            <p> Nenhuma foto cadastrada </p>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

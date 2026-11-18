@@ -1,0 +1,28 @@
+<nav>
+    <div>
+        <a href="{% url 'index' %}"> Início </a>
+        <a href="{% url 'listar_imoveis' %}"> Gerenciar Imóveis </a>
+        <a href="{% url 'pesquisar_imoveis' %}"> Pesquisar Imóveis </a>
+        <a href="{% url 'listar_clientes' %}"> Gerenciar Clientes </a>
+        <a href="{% url 'listar_locacoes' %}"> Gerenciar Locações </a>
+        <a href="{% url 'listar_ocorrencias' %}"> Ocorrências </a>
+        {% if user.is_superuser %}
+            <a href="{% url 'listar_funcionarios' %}"> Gerenciar Funcionários </a>
+            <a href="{% url 'gerar_relatorio' %}"> Gerar Relatórios </a>
+        {% endif %}
+    </div>
+    <div class="usuario-menu">
+        {% if user.is_authenticated %}
+            <span>Olá, {{ user.username }}!</span>
+
+            <a href="{% url 'alterar_senha' %}">Alterar Senha</a>
+
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit" class="link-logout">Sair</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Entrar</a>
+        {% endif %}
+    </div>
+</nav>

@@ -1,0 +1,98 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Ocorrências</title>
+</head>
+<body>
+
+    {% include '_menu.html'%}
+
+    {% include '_mensagem.html'%}
+
+    <h1> Ocorrências Pendentes </h1>
+
+    <div class="acoes-topo">
+        <a href="{% url 'registrar_ocorrencia' %}" class="botao-novo"> + Registrar Ocorrência </a>
+    </div>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Imóvel</th>
+                    <th>Problema</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for ocorrencia in pendentes %}
+
+                <tr>
+                    <td> {{ ocorrencia.data_cadastro|date:"d/m/Y H:i" }} </td>
+                    <td> {{ ocorrencia.imovel.endereco }} </td>
+                    <td> {{ ocorrencia.descricao }} </td>
+                    <td>
+                        <a href="{% url 'resolver_ocorrencia' ocorrencia.id %}" onclick="return confirm('Marcar como resolvida?')"> Marcar como Resolvida </a>
+                    </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="4"> Nenhuma ocorrência pendente </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    <h1> Ocorrências Resolvidas </h1>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Data</th>
+                    <th>Imóvel</th>
+                    <th>Problema</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for ocorrencia in resolvidas %}
+
+                <tr>
+                    <td> {{ ocorrencia.data_cadastro|date:"d/m/Y H:i" }} </td>
+                    <td> {{ ocorrencia.imovel.endereco }} </td>
+                    <td> {{ ocorrencia.descricao }} </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="3"> Nenhuma ocorrência resolvida </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+</html>

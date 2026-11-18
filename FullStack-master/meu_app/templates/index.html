@@ -1,0 +1,112 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Imobiliária</title>
+</head>
+<body>
+
+    {% include '_menu.html' %}
+
+    {% include '_mensagem.html' %}
+
+    <h1> Olá, {{ user.username }} </h1>
+
+    <p class="subtitulo"> Escolha uma tarefa ou confira o que está pendente. </p>
+
+    <div class="cartoes">
+
+        <a href="{% url 'pesquisar_imoveis' %}" class="cartao">
+            <h3> Pesquisar Imóveis </h3>
+            <p> Encontrar imóveis disponíveis por localização, tipo, quartos e valor </p>
+        </a>
+
+        <a href="{% url 'criar_locacao' %}" class="cartao">
+            <h3> Criar Locação </h3>
+            <p> Alugar um imóvel disponível para um cliente </p>
+        </a>
+
+        <a href="{% url 'listar_locacoes' %}" class="cartao">
+            <h3> Gerenciar Locações </h3>
+            <p> Confirmar entrada, finalizar ou cancelar contratos </p>
+        </a>
+
+        <a href="{% url 'registrar_ocorrencia' %}" class="cartao">
+            <h3> Registrar Ocorrência </h3>
+            <p> Avisar a equipe sobre um problema em um imóvel </p>
+        </a>
+
+        <a href="{% url 'cadastrar_imovel' %}" class="cartao">
+            <h3> Cadastrar Imóvel </h3>
+            <p> Adicionar um novo imóvel com fotos </p>
+        </a>
+
+        <a href="{% url 'listar_clientes' %}" class="cartao">
+            <h3> Gerenciar Clientes </h3>
+            <p> Cadastrar, editar e consultar clientes </p>
+        </a>
+
+        {% if user.is_superuser %}
+            <a href="{% url 'listar_funcionarios' %}" class="cartao cartao-admin">
+                <h3> Gerenciar Funcionários </h3>
+                <p> Cadastrar, editar ou remover funcionários </p>
+            </a>
+
+            <a href="{% url 'gerar_relatorio' %}" class="cartao cartao-admin">
+                <h3> Gerar Relatórios </h3>
+                <p> Locações por tipo de imóvel e status </p>
+            </a>
+        {% endif %}
+
+    </div>
+
+    <div class="painel">
+
+        <div class="bloco bloco-alerta">
+            <h2>
+                Ocorrências pendentes
+                <a href="{% url 'listar_ocorrencias' %}"> Ver todas </a>
+            </h2>
+
+            {% if ocorrencias_pendentes %}
+                <ul>
+                    {% for ocorrencia in ocorrencias_pendentes %}
+                        <li>
+                            <strong> {{ ocorrencia.imovel.endereco }} </strong>
+                            <span> {{ ocorrencia.data_cadastro|date:"d/m/Y" }} — {{ ocorrencia.descricao }} </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="vazio"> Nenhuma ocorrência pendente. </p>
+            {% endif %}
+        </div>
+
+        <div class="bloco">
+            <h2>
+                Locações aguardando entrada
+                <a href="{% url 'listar_locacoes' %}"> Gerenciar </a>
+            </h2>
+
+            {% if locacoes_pendentes %}
+                <ul>
+                    {% for locacao in locacoes_pendentes %}
+                        <li>
+                            <strong> {{ locacao.imovel.endereco }} </strong>
+                            <span> {{ locacao.cliente }} — início em {{ locacao.data_inicio|date:"d/m/Y" }} </span>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="vazio"> Nenhuma locação aguardando entrada. </p>
+            {% endif %}
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,83 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title> Listar Funcionarios </title>
+</head>
+<body>
+
+    {% include '_menu.html' %}
+
+    {% include '_mensagem.html' %}
+
+    <div class="form-pesquisa nao-imprimir">
+        <form method="GET"> 
+            <input type="text" name="nome_da_pesquisa" placeholder="Pesquisar funcionário" value='{{ nome_da_pesquisa }}'> 
+            <button type="submit">Pesquisar</button> 
+        </form>
+    </div>
+
+
+    <h1> Lista de Funcionários </h1>
+
+    <div class="acoes-topo">
+        <a href="{% url 'cadastrar_funcionario' %}" class="botao-novo"> + Cadastrar Funcionário </a>
+        <a href="{% url 'cadastrar_usuario' %}" class="botao-novo"> + Cadastrar Usuário </a>
+        <a href="{% url 'funcionarios_inativos' %}" class="botao-novo"> Funcionários Inativos </a>
+    </div>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Nome  <a href="?ordem=crescente&nome_da_pesquisa={{ nome_da_pesquisa }}"> ↑ </a>  <a href="?ordem=decrescente&nome_da_pesquisa={{ nome_da_pesquisa }}"> ↓ </a>  </th>
+                    <th>Sobrenome</th>
+                    <th>E-mail</th>
+                    <th>Telefone</th>
+                    <th>Sexo</th>
+                    <th class="nao-imprimir">Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                
+                {% for funcionario in funcionarios %}
+
+                <tr>
+                    <td> {{ funcionario.nome}} </td>
+                    <td> {{ funcionario.sobrenome }} </td>
+                    <td> {{ funcionario.email }} </td>
+                    <td> {{ funcionario.telefone }} </td>
+                    <td> {{ funcionario.get_sexo_display }} </td>
+
+                    <td class="nao-imprimir"> 
+                        <a href="{% url 'editar_funcionario' funcionario.id %}"> Editar </a> |
+                        <a href="{% url 'excluir_funcionario' funcionario.id %}"> Excluir </a> |
+                        <a href="{% url 'desativar_funcionario' funcionario.id %}"> Desativar </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <br><br>
+
+        <button class="nao-imprimir" onclick="window.print()">
+             Imprimir Funcionários
+        </button>
+
+
+    <div>
+
+</body>
+</html>
+
+    

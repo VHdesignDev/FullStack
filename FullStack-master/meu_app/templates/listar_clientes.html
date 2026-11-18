@@ -1,0 +1,69 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Lista de Clientes</title>
+</head>
+<body>
+
+    {% include '_menu.html'%}
+
+    {% include '_mensagem.html'%}
+
+    <div class="form-pesquisa">
+        <form method="GET">
+            <input type="text" name="nome_da_pesquisa" placeholder="Pesquisar cliente" value='{{ nome_da_pesquisa }}'>
+            <button type="submit">Pesquisar</button>
+        </form>
+    </div>
+
+    <h1> Lista de Clientes </h1>
+    
+    <div class="acoes-topo">
+        <a href="{% url 'cadastrar_cliente' %}" class="botao-novo"> + Cadastrar Cliente </a>
+    </div>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sobrenome</th>
+                    <th>CPF/CNPJ</th>
+                    <th>Telefone</th>
+                    <th>E-mail</th>
+                    <th>Endereço</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for cliente in clientes %}
+
+                <tr>
+                    <td> {{ cliente.nome }} </td>
+                    <td> {{ cliente.sobrenome }} </td>
+                    <td> {{ cliente.cpf }} </td>
+                    <td> {{ cliente.telefone }} </td>
+                    <td> {{ cliente.email }} </td>
+                    <td> {{ cliente.endereco }} </td>
+                    <td>
+                        <a href="{% url 'editar_cliente' cliente.id %}"> Editar </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+</html>

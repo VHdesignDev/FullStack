@@ -1,0 +1,90 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Relatório de Locações</title>
+</head>
+<body>
+
+    <div class="nao-imprimir">
+        {% include '_menu.html'%}
+
+        {% include '_mensagem.html'%}
+
+        <div class="form-pesquisa">
+            <form method="GET">
+                <select name="tipo">
+                    <option value="">Todos os tipos</option>
+                    <option value="A" {% if tipo == 'A' %}selected{% endif %}>Apartamento</option>
+                    <option value="C" {% if tipo == 'C' %}selected{% endif %}>Casa</option>
+                    <option value="S" {% if tipo == 'S' %}selected{% endif %}>Sala Comercial</option>
+                </select>
+
+                <select name="status">
+                    <option value="">Todos os status</option>
+                    <option value="P" {% if status == 'P' %}selected{% endif %}>Pendente</option>
+                    <option value="A" {% if status == 'A' %}selected{% endif %}>Ativa</option>
+                    <option value="F" {% if status == 'F' %}selected{% endif %}>Finalizada</option>
+                    <option value="C" {% if status == 'C' %}selected{% endif %}>Cancelada</option>
+                </select>
+
+                <button type="submit">Filtrar</button>
+            </form>
+        </div>
+    </div>
+
+    <h1> Relatório de Locações </h1>
+
+    <div class="lista-funcionario">
+        <table border="">
+
+            <thead>
+                <tr>
+                    <th>Cliente</th>
+                    <th>CPF/CNPJ</th>
+                    <th>Imóvel</th>
+                    <th>Tipo</th>
+                    <th>Início</th>
+                    <th>Duração</th>
+                    <th>Aluguel</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for locacao in locacoes %}
+
+                <tr>
+                    <td> {{ locacao.cliente }} </td>
+                    <td> {{ locacao.cliente.cpf }} </td>
+                    <td> {{ locacao.imovel.endereco }} </td>
+                    <td> {{ locacao.imovel.get_tipo_display }} </td>
+                    <td> {{ locacao.data_inicio|date:"d/m/Y" }} </td>
+                    <td> {{ locacao.duracao_meses }} meses </td>
+                    <td> R$ {{ locacao.imovel.valor_aluguel|floatformat:2 }} </td>
+                    <td> {{ locacao.get_status_display }} </td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="8"> Nenhuma locação encontrada </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+        <button class="nao-imprimir" onclick="window.print()">
+            Imprimir Relatório
+        </button>
+    </div>
+
+</body>
+</html>
